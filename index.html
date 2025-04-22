@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Event Registration</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700&display=swap');
+:root {
+--primary: #6e45e2;
+--secondary: #88d3ce;
+--accent: #ff7e5f;
+--dark: #1a1a2e;
+--light: #f8f9fa;
+}
+* {
+box-sizing: border-box;
+padding: 0;
+margin: 0;
+}
+body {
+font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+background: black;
+min-height: 100vh;
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+color: var(--light);
+overflow-x: hidden;
+}
+.background {
+position: fixed;
+width: 100%;
+height: 100%;
+background: linear-gradient(45deg, #000000, #1a1a2e, #000000);
+animation: gradientMove 8s infinite linear alternate;
+z-index: -1;
+}
+@keyframes gradientMove {
+0% { background-position: 0% 50%; }
+100% { background-position: 100% 50%; }
+}
+.neon-line {
+position: absolute;
+width: 150px;
+height: 3px;
+background: linear-gradient(90deg, transparent, #39ff14, transparent);
+animation: moveLines 6s infinite linear;
+}
+@keyframes moveLines {
+0% { transform: translateX(-100px); }
+100% { transform: translateX(100vw); }
+}
+.line1 { top: 10%; left: 15%; }
+.line2 { top: 40%; left: 50%; }
+.line3 { top: 70%; left: 20%; }
+.line4 { top: 85%; left: 75%; }
+.heading {
+font-size: 75px;
+font-weight: bold;
+text-align: center;
+font-family: 'Cinzel', serif;
+text-transform: uppercase;
+color: white;
+text-shadow: 0 0 15px rgba(255, 255, 255, 0.9), 
+0 0 30px rgba(255, 255, 255, 0.8), 
+0 0 45px rgba(255, 255, 255, 0.7);
+margin-bottom: 10px;
+}
+.sub-heading {
+font-size: 20px;
+text-align: center;
+font-style: italic;
+color: #ccc;
+margin-bottom: 25px;
+}
+.container {
+width: 40%;
+background: rgba(255, 255, 255, 0.1);
+backdrop-filter: blur(12px);
+padding: 30px;
+border-radius: 20px;
+box-shadow: 0 8px 32px rgba(110, 69, 226, 0.3);
+border: 1px solid rgba(255, 255, 255, 0.1);
+text-align: center;
+position: relative;
+z-index: 2;
+}
+input {
+width: 100%;
+padding: 14px;
+margin-top: 15px;
+border-radius: 8px;
+background: rgba(255, 255, 255, 0.1);
+border: 1px solid rgba(255, 255, 255, 0.2);
+color: var(--light);
+font-size: 16px;
+}
+input:focus {
+outline: none;
+border-color: var(--secondary);
+box-shadow: 0 0 0 3px rgba(136, 211, 206, 0.3);
+}
+input::placeholder {
+color: rgba(255, 255, 255, 0.6);
+}
+button {
+width: 100%;
+padding: 14px;
+margin-top: 20px;
+border-radius: 8px;
+background: linear-gradient(135deg, var(--primary), var(--accent));
+color: white;
+font-size: 16px;
+font-weight: 600;
+cursor: pointer;
+border: none;
+transition: all 0.3s ease;
+}
+button:hover {
+transform: translateY(-3px);
+box-shadow: 0 8px 25px rgba(110, 69, 226, 0.6);
+background: linear-gradient(135deg, var(--accent), var(--primary));
+}
+#error-message {
+color: red;
+display: none;
+margin-top: 10px;
+font-size: 14px;
+}
+/* Responsive Adjustments */
+@media (max-width: 992px) {
+.container {
+width: 80%;
+}
+}
+@media (max-width: 768px) {
+.container {
+width: 95%;
+padding: 20px;
+}
+.heading {
+font-size: 55px;
+}
+.sub-heading {
+font-size: 16px;
+}
+}
+@media (max-width: 480px) {
+.heading {
+font-size: 42px;
+}
+.sub-heading {
+font-size: 14px;
+}
+input, button {
+font-size: 14px;
+padding: 12px;
+}
+.container {
+width: 95%;
+padding: 15px;
+}
+}
+</style>
+</head>
+<body>
+<!-- Background and Effects -->
+<div class="background"></div>
+<div class="neon-line line1"></div>
+<div class="neon-line line2"></div>
+<div class="neon-line line3"></div>
+<div class="neon-line line4"></div>
+<!-- Heading -->
+<div class="heading">Registration</div>
+<div class="sub-heading">A Cultural Fest by Amrita Chennai Campus</div>
+<!-- Registration Form -->
+<div class="container">
+<form id="register-form">
+<input type="text" id="fullname" placeholder="Full Name" required>
+<input type="email" id="email" placeholder="Email" required>
+<input type="password" id="password" placeholder="Password" required>
+<button type="submit">Register</button>
+<p id="error-message">Invalid email or password format.</p>
+</form>
+</div>
+<!-- ORIGINAL JavaScript (unchanged) -->
+<script>
+document.getElementById("register-form").addEventListener("submit", function(event) {
+event.preventDefault();
+let email = document.getElementById("email").value;
+let password = document.getElementById("password").value;
+let errorMessage = document.getElementById("error-message");
+let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+let passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+if (!emailPattern.test(email) || !passwordPattern.test(password)) {
+errorMessage.style.display = "block";
+} else {
+errorMessage.style.display = "none";
+window.location.href = "updated dashboard.html";
+}
+});
+</script>
+</body>
+</html>

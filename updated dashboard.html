@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Dashboard - Cultural Fest</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700&display=swap');
+
+    :root {
+      --primary: #6e45e2;
+      --secondary: #88d3ce;
+      --accent: #ff7e5f;
+      --dark: #1a1a2e;
+      --light: #f8f9fa;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+      color: var(--light);
+      scroll-behavior: smooth;
+      background: linear-gradient(45deg, #000000, #1a1a2e, #000000);
+      position: relative;
+      min-height: 100vh;
+    }
+
+    .signout-btn {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: var(--accent);
+      color: white;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.3s;
+      z-index: 100;
+    }
+
+    .signout-btn:hover {
+      background: #e63c3c;
+    }
+    
+    .heading-container {
+  width: 100%;
+  text-align: center;
+  margin-top: 80px; /* Space below logout button */
+}
+
+
+    .navbar {
+      width: 80px;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.8);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px 0;
+      position: fixed;
+      left: 0;
+      top: 0;
+      overflow: hidden;
+      z-index: 10;
+      transition: transform 0.3s ease-in-out;
+    }
+
+    .navbar a {
+      color: white;
+      text-decoration: none;
+      padding: 15px;
+      display: flex;
+      align-items: center;
+      width: 100%;
+      font-size: 18px;
+      transition: background 0.3s, transform 0.3s;
+      justify-content: center;
+      white-space: nowrap;
+    }
+
+    .navbar a i {
+      font-size: 24px;
+      transition: transform 0.3s;
+    }
+
+    .navbar a span {
+      opacity: 0;
+      margin-left: 10px;
+      transition: opacity 0.3s;
+      display: none;
+    }
+
+    .navbar:hover {
+      width: 200px;
+      background: rgba(0, 0, 0, 0.9);
+    }
+
+    .navbar:hover a span {
+      display: inline;
+      opacity: 1;
+    }
+
+    .navbar a:hover {
+      background: #ff4040;
+      border-radius: 10px;
+      transform: scale(1.1);
+    }
+
+    .main-content {
+      margin-left: 100px;
+      width: calc(100% - 100px);
+      padding: 50px;
+      text-align: center;
+      transition: margin-left 0.4s ease-in-out;
+    }
+
+    .navbar:hover ~ .main-content {
+      margin-left: 220px;
+      width: calc(100% - 220px);
+    }
+
+    section {
+      padding: 30px 30px;
+      margin-top: 10px;
+      scroll-margin-top: 20px;
+    }
+
+    .container {
+      width: 80%;
+      margin: auto;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(12px);
+      padding: 15px;
+      border-radius: 15px;
+      box-shadow: 0 6px 20px rgba(255, 255, 255, 0.1);
+      text-align: center;
+    }
+
+    .event-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    .event {
+      width: 220px;
+      height: 180px;
+      border-radius: 8px;
+      overflow: hidden;
+      cursor: pointer;
+      text-align: center;
+      color: white;
+      font-size: 18px;
+      font-weight: bold;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .event:hover {
+      transform: scale(1.05);
+      box-shadow: 0px 0px 12px rgba(255, 255, 255, 0.4);
+    }
+
+    .event a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      width: 100%;
+      text-decoration: none;
+      color: white;
+      background: rgba(0, 0, 0, 0.5);
+      transition: background 0.3s ease;
+    }
+
+    .event a:hover {
+      background: rgba(0, 0, 0, 0.7);
+    }
+
+    .singing { background: url('singing.jpg') no-repeat center/cover; }
+    .dance { background: url('dance.jpg') no-repeat center/cover; }
+    .drama { background: url('drama.jpg') no-repeat center/cover; }
+    .art { background: url('painting.jpg') no-repeat center/cover; }
+    .photography { background: url('photography.jpg') no-repeat center/cover; }
+
+    /* MEDIA QUERIES */
+    @media (max-width: 768px) {
+      .navbar {
+        width: 60px;
+      }
+
+      .navbar a {
+        font-size: 14px;
+      }
+
+      .navbar:hover {
+        width: 160px;
+      }
+
+      .navbar:hover ~ .main-content {
+        margin-left: 160px;
+        width: calc(100% - 160px);
+      }
+
+      .main-content {
+        margin-left: 60px;
+        padding: 30px 20px;
+        width: calc(100% - 60px);
+      }
+
+      .event {
+        width: 100%;
+        max-width: 320px;
+        height: 150px;
+      }
+
+      .event-grid {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .signout-btn {
+        top: 10px;
+        right: 10px;
+        font-size: 14px;
+        padding: 8px 12px;
+      }
+
+      iframe {
+        width: 100% !important;
+        height: auto !important;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .navbar a span {
+        display: none !important;
+      }
+
+      .navbar:hover {
+        width: 80px;
+      }
+
+      .navbar:hover ~ .main-content {
+        margin-left: 80px;
+        width: calc(100% - 80px);
+      }
+
+      h2 {
+        font-size: 22px;
+      }
+    }
+
+.subtle-heading {
+  font-family: 'Cinzel', serif;
+  font-size: 52px;
+  color: var(--light);
+  margin: 0 auto;
+  letter-spacing: 2px;
+  text-shadow: 0 0 8px rgba(255, 126, 95, 0.5);
+  opacity: 0;
+  transform: translateY(-10px);
+  animation: fadeIn 1.5s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.top-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 20px;
+  padding-bottom: 30px;
+  position: relative;
+  z-index: 5;
+}
+
+.signout-btn {
+  align-self: flex-end;
+  margin-right: 30px;
+  margin-bottom: 10px;
+  position: static; /* <-- changed from absolute to static */
+}
+
+.heading-container {
+  width: 100%;
+  text-align: center;
+  margin-top: 0; /* no longer needed due to padding in top-header */
+}
+
+  </style>
+</head>
+<body>
+
+  <div class="top-header">
+    <button class="signout-btn" onclick="window.location.href='index.html'">Log Out</button>
+    <div class="heading-container">
+      <h1 class="subtle-heading"> EVENTO 💫 </h1>
+    </div>
+  </div>
+
+
+  <div class="navbar">
+    <a href="#home"><i class="fa fa-home"></i> <span>Home</span></a>
+    <a href="events.html"><i class="fa fa-calendar-alt"></i> <span>About Events</span></a>
+    <a href="concert.html"><i class="fa fa-music"></i> <span>Concert</span></a>
+    <a href="#info"><i class="fa fa-info-circle"></i> <span>Info</span></a>
+    <a href="#contact"><i class="fa fa-envelope"></i> <span>Contact</span></a>
+    <a href="#support"><i class="fa fa-hands-helping"></i> <span>Support</span></a>
+  </div>
+
+  <div class="main-content">
+    <section id="home">
+      <div class="container">
+        <h2>Available Events</h2>
+        <p>Select an event to register:</p>
+        <div class="event-grid">
+          <div class="event singing"><a href="singing.html">🎤 Singing</a></div>
+          <div class="event dance"><a href="dancing.html">💃 Dance Battle</a></div>
+          <div class="event drama"><a href="drama.html">🎭 Drama</a></div>
+          <div class="event art"><a href="painting.html">🎨 Art</a></div>
+          <div class="event photography"><a href="photography.html">📸 Photography</a></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="events">
+      <div class="container">
+        <h2>Welcome to the Cultural Fest!</h2>
+        <p>Discover and register for exciting events below.</p>
+      </div>
+    </section>
+
+    <section id="info">
+      <div class="container" style="text-align: left;">
+        <h2 style="font-size: 32px; color: var(--secondary);">✨ All About Our Cultural Fest!</h2>
+        <p style="font-size: 18px; color: var(--light); line-height: 1.6;">
+          Our Cultural Fest is a vibrant celebration of creativity, talent, and togetherness! 🎉 Hosted every year, it's a platform where students shine beyond classrooms — through music, art, drama, and much more. It’s more than just fun; it’s a legacy in the making!
+        </p>
+
+        <h3 style="color: var(--accent); margin-top: 30px;">🎭 Signature Fest Highlights:</h3>
+
+        <h4 style="color: var(--secondary);">🌟 Competitions Galore!</h4>
+        <ul>
+          <li>🎤 Solo & Group Singing</li>
+          <li>💃 Dance Battles – Classical to Street Style</li>
+          <li>🎭 Theatrical Skits, Mime & Mono Acts</li>
+          <li>🎨 Live Art, Sketching, and Craft Challenges</li>
+        </ul>
+
+        <h4 style="color: var(--secondary);">🎓 Workshops & Interactive Exhibits</h4>
+        <ul>
+          <li>🖌️ Canvas Painting & Street Art Corners</li>
+          <li>📷 Photography Walks & Mobile Film Making</li>
+          <li>📚 Literary Corners & Book Exchanges</li>
+          <li>🔬 Science Meets Culture – STEM Meets Expression</li>
+        </ul>
+
+        <h4 style="color: var(--secondary);">🎵 Grand Musical Concert</h4>
+        <p style="font-size: 17px; color: var(--light);">
+          Join us for an electrifying night of live music, lights, and magical vibes! ✨
+        </p>
+        <ul>
+          <li><strong>Date:</strong> Saturday, April 12, 2025</li>
+          <li><strong>Time:</strong> 6:30 PM – 10:00 PM</li>
+          <li><strong>Venue:</strong> Main Stage, Cultural Fest Arena</li>
+          <li><strong>Featuring:</strong> 🎤 Guest Artist <em>DJ Zenith</em> & 🎸 Rock Band <em>Echo Pulse</em></li>
+        </ul>
+        <p style="font-style: italic; color: var(--accent);">🎇 Don’t miss the beats, lights & unforgettable moments!</p>
+
+        <h4 style="color: var(--secondary);">🍕 Food, Games & Fun Zones</h4>
+        <ul>
+          <li>🍱 Global & Local Food Trucks</li>
+          <li>🎯 Carnival Games & Puzzle Challenges</li>
+          <li>🎨 Face Painting & Henna Booths</li>
+        </ul>
+        <p style="margin-top: 20px; font-size: 18px; color: var(--light); font-style: italic;">
+          🎉 Let’s make memories that last a lifetime – Together, at our Cultural Fest!
+        </p>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="container">
+        <h2>Contact Us</h2>
+        <p>For any inquiries, feel free to reach out.</p>
+        <div style="position:relative; padding-bottom:56.25%; height:0; overflow:hidden;">
+          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3883.3992175472363!2d80.02484337432351!3d13.262974608424699!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a52814946112d6f%3A0x57a644f6f25f9b0c!2sAmrita%20Vishwa%20Vidyapeetham%2C%20Chennai!5e0!3m2!1sen!2sin!4v1743620305563!5m2!1sen!2sin"
+                  style="position:absolute; top:0; left:0; width:100%; height:100%; border:0;" allowfullscreen="" loading="lazy"
+                  referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+        <h3>Amrita Vishwa Vidyapeetham</h3>
+        <p><strong>Chennai Campus</strong></p>
+        <p><strong>Address:</strong> 337/1 A, Vallal RCK Nagar, SH 50A, Vengal, Tamil Nadu 601103</p>
+        <p><strong>Mail to:</strong> <a href="mailto:sunkaravivek2006@gmail.com">sunkaravivek2006@gmail.com</a></p>
+      </div>
+    </section>
+
+    <section id="support">
+      <div class="container">
+        <h2 style="margin-bottom: 20px;">Follow us on</h2>
+        <a href="https://www.instagram.com/YOUR_INSTAGRAM_USERNAME" target="_blank"
+           style="color: white; font-size: 32px; margin: 0 20px; transition: transform 0.3s;">
+          <i class="fab fa-instagram"></i>
+        </a>
+        <a href="https://www.youtube.com/YOUR_CHANNEL_LINK" target="_blank"
+           style="color: white; font-size: 32px; margin: 0 20px; transition: transform 0.3s;">
+          <i class="fab fa-youtube"></i>
+        </a>
+      </div>
+    </section>
+  </div>
+
+</body>
+</html>
