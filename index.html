@@ -189,18 +189,21 @@ padding: 15px;
 <!-- ORIGINAL JavaScript (unchanged) -->
 <script>
 document.getElementById("register-form").addEventListener("submit", function(event) {
-event.preventDefault();
-let email = document.getElementById("email").value;
-let password = document.getElementById("password").value;
-let errorMessage = document.getElementById("error-message");
-let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-let passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
-if (!emailPattern.test(email) || !passwordPattern.test(password)) {
-errorMessage.style.display = "block";
-} else {
-errorMessage.style.display = "none";
-window.location.href = "updated dashboard.html";
-}
+  event.preventDefault();
+  let email = document.getElementById("email").value;
+  let password = document.getElementById("password").value;
+  let errorMessage = document.getElementById("error-message");
+
+  // Email format check
+  let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  // Password should be at least 6 characters
+  if (!emailPattern.test(email) || password.length < 6) {
+    errorMessage.style.display = "block";
+  } else {
+    errorMessage.style.display = "none";
+    window.location.href = "updated dashboard.html";
+  }
 });
 </script>
 </body>
